@@ -5,7 +5,7 @@ import {
   PERMISSIONS,
   PermissionStatus,
   request,
-  openSettings
+  openSettings,
 } from 'react-native-permissions';
 
 export interface PermissionState {
@@ -34,7 +34,7 @@ export const PermissionsProvider = ({children}: any) => {
       }
       checkLocationPermision();
     });
-  }, []);
+  });
 
   const askLocationPermision = async () => {
     let permissionStatus: PermissionStatus;
