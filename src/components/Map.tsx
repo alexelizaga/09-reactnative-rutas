@@ -4,12 +4,13 @@ import MapView, {Marker} from 'react-native-maps';
 
 import {useLocation} from '../hooks/useLocation';
 import {LoadingScreen} from '../pages/LoadingScreen';
+import {Fab} from './Fab';
 
 interface Props {
   markers?: Marker[];
   style?: StyleProp<ViewStyle>;
 }
-export const Map = ({style, markers = []}: Props) => {
+export const Map = ({style}: Props) => {
   const {hasLocation, initialPosition} = useLocation();
 
   if (!hasLocation) {
@@ -37,6 +38,12 @@ export const Map = ({style, markers = []}: Props) => {
           description="Piso de dos habitaciones"
         /> */}
       </MapView>
+
+      <Fab
+        iconName="star-outline"
+        onPress={() => console.log('Hola Fab')}
+        style={styles.fab}
+      />
     </>
   );
 };
@@ -44,5 +51,10 @@ export const Map = ({style, markers = []}: Props) => {
 const styles = StyleSheet.create({
   map: {
     flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
   },
 });
