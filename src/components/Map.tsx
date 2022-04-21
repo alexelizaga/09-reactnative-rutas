@@ -16,18 +16,23 @@ export const Map = ({style}: Props) => {
     initialPosition,
     getCurrentLocation,
     followUserLocation,
+    stopFollowUserLocation,
     userLocation,
   } = useLocation();
   const mapViewRef = useRef<MapView>();
+  const followinRef = useRef<boolean>(true);
 
   useEffect(() => {
     followUserLocation();
     return () => {
-      // TODO: Cancelar seguimiento
+      stopFollowUserLocation();
     };
-  }, []);
+  });
 
   useEffect(() => {
+    if (!followinRef.current) {
+      return;
+    }
     mapViewRef.current?.animateCamera({
       center: userLocation,
     });
@@ -35,6 +40,8 @@ export const Map = ({style}: Props) => {
 
   const centerPosition = async () => {
     const location = await getCurrentLocation();
+
+    followinRef.current = true;
 
     mapViewRef.current?.animateCamera({
       center: location,
@@ -56,7 +63,8 @@ export const Map = ({style}: Props) => {
           longitude: initialPosition.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
-        }}>
+        }}
+        onTouchStart={() => (followinRef.current = false)}>
         {/* <Marker
           image={require('../assets/custom-marker.png')}
           coordinate={{
