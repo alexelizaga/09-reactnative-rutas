@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker, Polyline} from 'react-native-maps';
 
 import {useLocation} from '../hooks/useLocation';
 import {LoadingScreen} from '../pages/LoadingScreen';
@@ -18,6 +18,7 @@ export const Map = ({style}: Props) => {
     followUserLocation,
     stopFollowUserLocation,
     userLocation,
+    routeLines,
   } = useLocation();
   const mapViewRef = useRef<MapView>();
   const followinRef = useRef<boolean>(true);
@@ -74,6 +75,11 @@ export const Map = ({style}: Props) => {
           title="Mi casa"
           description="Piso de dos habitaciones"
         /> */}
+        <Polyline
+          coordinates={routeLines}
+          strokeColor="black"
+          strokeWidth={3}
+        />
       </MapView>
 
       <Fab
