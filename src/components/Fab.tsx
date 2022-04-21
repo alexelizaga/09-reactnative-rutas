@@ -21,7 +21,7 @@ export const Fab = ({iconName, onPress, style = {}}: Props) => {
         activeOpacity={0.9}
         onPress={onPress}
         style={styles.blackButton}>
-        <Icon name={iconName} color={'white'} size={35} />
+        <Icon name={iconName} color={'white'} size={35} style={styles.icon} />
       </TouchableOpacity>
     </View>
   );
@@ -44,5 +44,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 6,
+  },
+  icon: {
+    left: 1,
   },
 });

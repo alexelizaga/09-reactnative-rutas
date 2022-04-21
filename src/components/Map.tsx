@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 
@@ -11,7 +11,35 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 export const Map = ({style}: Props) => {
-  const {hasLocation, initialPosition} = useLocation();
+  const {
+    hasLocation,
+    initialPosition,
+    getCurrentLocation,
+    followUserLocation,
+    userLocation,
+  } = useLocation();
+  const mapViewRef = useRef<MapView>();
+
+  useEffect(() => {
+    followUserLocation();
+    return () => {
+      // TODO: Cancelar seguimiento
+    };
+  }, []);
+
+  useEffect(() => {
+    mapViewRef.current?.animateCamera({
+      center: userLocation,
+    });
+  }, [userLocation]);
+
+  const centerPosition = async () => {
+    const location = await getCurrentLocation();
+
+    mapViewRef.current?.animateCamera({
+      center: location,
+    });
+  };
 
   if (!hasLocation) {
     return <LoadingScreen />;
@@ -19,6 +47,7 @@ export const Map = ({style}: Props) => {
   return (
     <>
       <MapView
+        ref={el => (mapViewRef.current = el!)}
         style={[style, styles.map]}
         // provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
@@ -40,8 +69,8 @@ export const Map = ({style}: Props) => {
       </MapView>
 
       <Fab
-        iconName="star-outline"
-        onPress={() => console.log('Hola Fab')}
+        iconName="compass-outline"
+        onPress={centerPosition}
         style={styles.fab}
       />
     </>
