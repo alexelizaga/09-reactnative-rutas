@@ -35,7 +35,7 @@ export const PermissionsProvider = ({children}: any) => {
       }
       checkLocationPermision();
     });
-  });
+  }, []);
 
   const askLocationPermision = async () => {
     let permissionStatus: PermissionStatus;

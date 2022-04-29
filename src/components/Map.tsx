@@ -29,7 +29,7 @@ export const Map = ({style}: Props) => {
     return () => {
       stopFollowUserLocation();
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (!followinRef.current) {

@@ -35,7 +35,7 @@ export const useLocation = () => {
       setRouteLines(routes => [...routes, location]);
       setHasLocation(true);
     });
-  });
+  }, []);
 
   const getCurrentLocation = (): Promise<Location> => {
     return new Promise((resolve, reject) => {
